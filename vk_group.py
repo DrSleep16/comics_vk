@@ -97,19 +97,21 @@ if __name__ == '__main__':
     comic_url = f'https://xkcd.com/{comic_num}/info.0.json'
     comic_alt = download_comic(comic_url, f'comics/comic_{comic_num}.png')
     photo_path = f'comics/comic_{comic_num}.png'
+    try:
+        upload_response = upload_photo_to_server(upload_url, photo_path)
 
-    upload_response = upload_photo_to_server(upload_url, photo_path)
+        if 'photo' in upload_response:
+            photo = upload_response['photo']
+        else:
+            raise Exception('Фото не найдено')
+        server = upload_response['server']
+        photo_hash = upload_response['hash']
 
-    if 'photo' in upload_response:
-        photo = upload_response['photo']
-    else:
-        raise Exception('Фото не найдено')
-    server = upload_response['server']
-    photo_hash = upload_response['hash']
+        save_response = save_wall_photo(vk_access_token, vk_group_id, photo, server, photo_hash)
 
-    save_response = save_wall_photo(vk_access_token, vk_group_id, photo, server, photo_hash)
-
-    attachments = f"photo{save_response[0]['owner_id']}_{save_response[0]['id']}"
-    post_response = create_post(vk_access_token, vk_group_id, attachments, comic_alt)
-
-    os.remove(photo_path)
+        attachments = f"photo{save_response[0]['owner_id']}_{save_response[0]['id']}"
+        post_response = create_post(vk_access_token, vk_group_id, attachments, comic_alt)
+    except Exception as e:
+        print(f"Произошла ошибка: {e}")
+    finally:
+        os.remove(photo_path)
