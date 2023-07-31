@@ -32,8 +32,8 @@ def upload_photo_to_server(url, path):
     with open(path, 'rb') as file:
         files = {'photo': file}
         response = requests.post(url, files=files)
-        response.raise_for_status()
-        upload_info = response.json()
+    response.raise_for_status()
+    upload_info = response.json()
 
     if 'photo' in upload_info:
         return upload_info
