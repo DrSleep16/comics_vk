@@ -20,20 +20,6 @@ def save_comic(url, save_path):
     return comic['alt']
 
 
-def get_user_groups(token):
-    url = f'https://api.vk.com/method/groups.get?access_token={token}&v=5.131'
-
-    response = requests.get(url)
-    data = response.json()
-
-    if 'response' in data and 'items' in data['response']:
-        groups = data['response']['items']
-        return groups
-    else:
-        print(f"Failed to retrieve groups. Error message: {data.get('error', 'Unknown error')}")
-        return []
-
-
 def get_wall_upload_server(token, group_id):
     url = f'https://api.vk.com/method/photos.getWallUploadServer?access_token={token}&v=5.131&group_id={group_id}'
 
@@ -89,8 +75,8 @@ def create_post(token, group_id, attachments_, message):
 if __name__ == '__main__':
     load_dotenv()
     vk_access_token = os.environ['VK_ACCESS_TOKEN']
-    group_id = get_user_groups(vk_access_token)[0]
-    upload_server = get_wall_upload_server(vk_access_token, group_id)
+    vk_group_id = os.environ['VK_GROUP_ID']
+    upload_server = get_wall_upload_server(vk_access_token, vk_group_id)
 
     upload_url = upload_server['upload_url']
     album_id = upload_server['album_id']
@@ -107,9 +93,9 @@ if __name__ == '__main__':
     server = upload_response['server']
     photo_hash = upload_response['hash']
 
-    save_response = save_wall_photo(vk_access_token, group_id, photo, server, photo_hash)
+    save_response = save_wall_photo(vk_access_token, vk_group_id, photo, server, photo_hash)
 
     attachments = f"photo{save_response[0]['owner_id']}_{save_response[0]['id']}"
-    post_response = create_post(vk_access_token, group_id, attachments, comic_alt)
+    post_response = create_post(vk_access_token, vk_group_id, attachments, comic_alt)
 
     os.remove(photo_path)
