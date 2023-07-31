@@ -88,7 +88,7 @@ def create_post(token, group_id, attachments_, message):
 
 if __name__ == '__main__':
     load_dotenv()
-    vk_access_token = os.getenv('VK_ACCESS_TOKEN')
+    vk_access_token = os.environ['VK_ACCESS_TOKEN']
     group_id = get_user_groups(vk_access_token)[0]
     upload_server = get_wall_upload_server(vk_access_token, group_id)
 
