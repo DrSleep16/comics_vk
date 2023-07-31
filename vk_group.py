@@ -92,7 +92,8 @@ if __name__ == '__main__':
     album_id = upload_server['album_id']
     user_id = upload_server['user_id']
 
-    comic_num = randint(1, 2808)
+    max_comics = 2808
+    comic_num = randint(1, max_comics)
     comic_url = f'https://xkcd.com/{comic_num}/info.0.json'
     comic_alt = download_comic(comic_url, f'comics/comic_{comic_num}.png')
     photo_path = f'comics/comic_{comic_num}.png'
