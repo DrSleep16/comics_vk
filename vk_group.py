@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from random import randint
 
 
-def save_comic(url, save_path):
+def download_comic(url, save_path):
     response = requests.get(url)
     response.raise_for_status()
 
@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
     comic_num = randint(1, 2808)
     comic_url = f'https://xkcd.com/{comic_num}/info.0.json'
-    comic_alt = save_comic(comic_url, f'comics/comic_{comic_num}.png')
+    comic_alt = download_comic(comic_url, f'comics/comic_{comic_num}.png')
     photo_path = f'comics/comic_{comic_num}.png'
 
     upload_response = upload_photo_to_server(upload_url, photo_path)
