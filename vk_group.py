@@ -23,6 +23,7 @@ def get_wall_upload_server(token, group_id):
     url = f'https://api.vk.com/method/photos.getWallUploadServer?access_token={token}&v=5.131&group_id={group_id}'
 
     response = requests.get(url)
+    response.raise_for_status()
     data = response.json()
     return data['response']
 
@@ -31,6 +32,7 @@ def upload_photo_to_server(url, path):
     with open(path, 'rb') as file:
         files = {'photo': file}
         response = requests.post(url, files=files)
+        response.raise_for_status()
         data = response.json()
 
     if 'photo' in data:
