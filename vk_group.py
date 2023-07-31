@@ -88,9 +88,9 @@ def create_post(token, group_id, attachments_, message):
 
 if __name__ == '__main__':
     load_dotenv()
-    access_token = os.getenv('ACCESS_TOKEN')
-    group_id = get_user_groups(access_token)[0]
-    upload_server = get_wall_upload_server(access_token, group_id)
+    vk_access_token = os.getenv('VK_ACCESS_TOKEN')
+    group_id = get_user_groups(vk_access_token)[0]
+    upload_server = get_wall_upload_server(vk_access_token, group_id)
 
     upload_url = upload_server['upload_url']
     album_id = upload_server['album_id']
@@ -107,9 +107,9 @@ if __name__ == '__main__':
     server = upload_response['server']
     photo_hash = upload_response['hash']
 
-    save_response = save_wall_photo(access_token, group_id, photo, server, photo_hash)
+    save_response = save_wall_photo(vk_access_token, group_id, photo, server, photo_hash)
 
     attachments = f"photo{save_response[0]['owner_id']}_{save_response[0]['id']}"
-    post_response = create_post(access_token, group_id, attachments, comic_alt)
+    post_response = create_post(vk_access_token, group_id, attachments, comic_alt)
 
     os.remove(photo_path)
