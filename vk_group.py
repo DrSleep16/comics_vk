@@ -34,12 +34,7 @@ def upload_photo_to_server(url, path):
         response = requests.post(url, files=files)
     response.raise_for_status()
     upload_info = response.json()
-
-    if 'photo' in upload_info:
-        return upload_info
-    else:
-        print(f"Failed to upload photo. Error message: {upload_info.get('error', 'Unknown error')}")
-        return None
+    return upload_info
 
 
 def save_wall_photo(token, group_id, photo_, server_, hash_):
@@ -90,7 +85,10 @@ if __name__ == '__main__':
 
     upload_response = upload_photo_to_server(upload_url, photo_path)
 
-    photo = upload_response['photo']
+    if 'photo' in upload_response:
+        photo = upload_response['photo']
+    else:
+        raise Exception('Фото не найдено')
     server = upload_response['server']
     photo_hash = upload_response['hash']
 
