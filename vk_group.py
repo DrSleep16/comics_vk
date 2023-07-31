@@ -24,8 +24,8 @@ def get_wall_upload_server(token, group_id):
 
     response = requests.get(url)
     response.raise_for_status()
-    data = response.json()
-    return data['response']
+    server_info = response.json()
+    return server_info['response']
 
 
 def upload_photo_to_server(url, path):
@@ -33,12 +33,12 @@ def upload_photo_to_server(url, path):
         files = {'photo': file}
         response = requests.post(url, files=files)
         response.raise_for_status()
-        data = response.json()
+        upload_info = response.json()
 
-    if 'photo' in data:
-        return data
+    if 'photo' in upload_info:
+        return upload_info
     else:
-        print(f"Failed to upload photo. Error message: {data.get('error', 'Unknown error')}")
+        print(f"Failed to upload photo. Error message: {upload_info.get('error', 'Unknown error')}")
         return None
 
 
@@ -54,8 +54,8 @@ def save_wall_photo(token, group_id, photo_, server_, hash_):
 
     response = requests.post(url, data=params)
     response.raise_for_status()
-    data = response.json()
-    return data['response']
+    save_info = response.json()
+    return save_info['response']
 
 
 def create_post(token, group_id, attachments_, message):
@@ -69,8 +69,8 @@ def create_post(token, group_id, attachments_, message):
 
     response = requests.post(url, data=params)
     response.raise_for_status()
-    data = response.json()
-    return data['response']
+    post_info = response.json()
+    return post_info['response']
 
 
 if __name__ == '__main__':
