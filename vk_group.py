@@ -11,12 +11,11 @@ def download_comic(url, save_path):
     comic = response.json()
     image_url = comic['img']
 
-    image_response = requests.get(image_url, stream=True)
+    image_response = requests.get(image_url)
     image_response.raise_for_status()
 
     with open(save_path, 'wb') as file:
-        for chunk in image_response.iter_content():
-            file.write(chunk)
+        file.write(image_response.content)
     return comic['alt']
 
 
