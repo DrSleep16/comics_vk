@@ -19,6 +19,16 @@ def download_comic(url, save_path):
     return comic['alt']
 
 
+def handle_vk_response(response):
+    response_json = response.json()
+    if 'error' in response_json:
+        error_code = response_json['error']['error_code']
+        error_msg = response_json['error']['error_msg']
+        raise Exception(f"Ошибка VK API (код {error_code}): {error_msg}")
+    else:
+        return response_json
+
+
 def get_wall_upload_server(token, group_id):
     url = f'https://api.vk.com/method/photos.getWallUploadServer'
     params = {
@@ -28,6 +38,7 @@ def get_wall_upload_server(token, group_id):
     }
     response = requests.get(url, params=params)
     response.raise_for_status()
+    handle_vk_response(response)
     server_info = response.json()
     return server_info['response']
 
@@ -58,6 +69,7 @@ def save_wall_photo(token, group_id, photo_, server_, hash_):
 
     response = requests.post(url, params=params, data=data)
     response.raise_for_status()
+    handle_vk_response(response)
     save_info = response.json()
     return save_info['response']
 
@@ -78,6 +90,7 @@ def create_post(token, group_id, attachments_, message):
 
     response = requests.post(url, params=params, data=data)
     response.raise_for_status()
+    handle_vk_response(response)
     post_info = response.json()
     return post_info['response']
 
