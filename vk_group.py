@@ -38,8 +38,7 @@ def get_wall_upload_server(token, group_id):
     }
     response = requests.get(url, params=params)
     response.raise_for_status()
-    handle_vk_response(response)
-    upl_server = response.json()
+    upl_server = handle_vk_response(response)
     return upl_server['response']
 
 
@@ -69,8 +68,7 @@ def save_wall_photo(token, group_id, photo_, server_, hash_):
 
     response = requests.post(url, params=params, data=data)
     response.raise_for_status()
-    handle_vk_response(response)
-    upload = response.json()
+    upload = handle_vk_response(response)
     return upload['response']
 
 
@@ -90,8 +88,7 @@ def create_post(token, group_id, attachments_, message):
 
     response = requests.post(url, params=params, data=post_payload)
     response.raise_for_status()
-    handle_vk_response(response)
-    post = response.json()
+    post = handle_vk_response(response)
     return post['response']
 
 
