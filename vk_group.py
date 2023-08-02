@@ -92,6 +92,10 @@ def create_post(token, group_id, attachments_, message):
     return post['response']
 
 
+class PhotoNotFoundError(Exception):
+    pass
+
+
 if __name__ == '__main__':
     load_dotenv()
     vk_access_token = os.environ['VK_ACCESS_TOKEN']
@@ -107,9 +111,6 @@ if __name__ == '__main__':
     comic_url = f'https://xkcd.com/{comic_num}/info.0.json'
     comic_alt = download_comic(comic_url, f'comic_{comic_num}.png')
     photo_path = f'comic_{comic_num}.png'
-
-    class PhotoNotFoundError(Exception):
-        pass
 
     try:
         upload_response = upload_photo_to_server(upload_url, photo_path)
