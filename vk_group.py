@@ -47,8 +47,8 @@ def upload_photo_to_server(url, path):
         files = {'photo': file}
         response = requests.post(url, files=files)
     response.raise_for_status()
-    upload = response.json()
-    return upload
+    photo = response.json()
+    return photo
 
 
 def save_wall_photo(token, group_id, photo_, server_, hash_):
@@ -68,8 +68,8 @@ def save_wall_photo(token, group_id, photo_, server_, hash_):
 
     response = requests.post(url, params=params, data=photo)
     response.raise_for_status()
-    upload = handle_vk_response(response)
-    return upload['response']
+    vk_response = handle_vk_response(response)
+    return vk_response['response']
 
 
 def create_post(token, group_id, attachments_, message):
