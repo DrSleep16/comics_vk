@@ -20,13 +20,13 @@ def download_comic(url, save_path):
 
 
 def handle_vk_response(response):
-    response_json = response.json()
-    if 'error' in response_json:
-        error_code = response_json['error']['error_code']
-        error_msg = response_json['error']['error_msg']
+    vk_outcome = response.json()
+    if 'error' in vk_outcome:
+        error_code = vk_outcome['error']['error_code']
+        error_msg = vk_outcome['error']['error_msg']
         raise Exception(f"Ошибка VK API (код {error_code}): {error_msg}")
     else:
-        return response_json
+        return vk_outcome
 
 
 def get_wall_upload_server(token, group_id):
