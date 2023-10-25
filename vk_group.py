@@ -103,8 +103,6 @@ if __name__ == '__main__':
     upload_server = get_wall_upload_server(vk_access_token, vk_group_id)
 
     upload_url = upload_server['upload_url']
-    album_id = upload_server['album_id']
-    user_id = upload_server['user_id']
 
     max_comics = 2808
     comic_num = randint(1, max_comics)
